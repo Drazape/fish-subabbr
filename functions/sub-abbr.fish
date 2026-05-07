@@ -53,7 +53,7 @@ function sub-abbr --description='Create abbreviations for subcommands'
     set --function func_name _sub-attr_(string replace --all ' ' - {$initial_command})_{$subcommand} # function name compatible hash, specific to the combination
     abbr {$argv_opts} --add --position=anywhere --function={$func_name} -- "$subcommand"
     function _expand-subcommand --description='Expand a subcommand' --argument-names={initial_command,expansion,subcommand}
-        test (commandline --current-process | string trim) = {$initial_command}\ {$subcommand} && echo {$expansion}
+        string match --quiet (commandline --current-process) {,run0\ }{$initial_command}\ {$subcommand}' ' && echo {$expansion}
     end
     function {$func_name} --argument-names=subcommand --inherit-variable={initial_command,expansion}
         _expand-subcommand {$initial_command} {$expansion} {$subcommand}
