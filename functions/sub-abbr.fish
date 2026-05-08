@@ -2,7 +2,7 @@ function sub-abbr --description='Create abbreviations for subcommands'
     # arguments
     ## Switches
     ### Help (the only native switch)
-    argparse --move-unknown --name=(set_color --dim)(status function)(set_color normal) 'a/add=*&' '/position=*&' 'f/function=*&' 'h/help&' -- {$argv} || return 1
+    argparse --move-unknown --name=(set_color --dim)(status function)(set_color normal) 'a/add=*&' '/position=*&' 'f/function=*&' 'h/help&' '0/norun0&' -- {$argv} || return 1
     if set --query --local _flag_help
         function bullet --description='Create colored bullet points'
             echo (set_color --dim yellow){$argv}.(set_color normal)
@@ -48,8 +48,10 @@ function sub-abbr --description='Create abbreviations for subcommands'
     # main operation
     set --function func_name _sub-attr_(string replace --all ' ' - {$initial_command})_{$subcommand} # function name compatible hash, specific to the combination
     abbr {$argv_opts} --add --position=anywhere --function={$func_name} -- "$subcommand"
-    function _expand-subcommand --description='Expand a subcommand' --argument-names={initial_command,expansion,subcommand}
-        string match --quiet (commandline --current-process) {,run0\ }{$initial_command}\ {$subcommand}' ' && echo {$expansion}
+    function _expand-subcommand --description='Expand a subcommand' --argument-names={initial_command,expansion,subcommand} --inherit-variable=_flag_norun0
+        set --function match_command {$initial_command}\ {$subcommand}' '
+        set --query --local _flag_norun0 || set --local check_run0 'run0 '"$match_command"
+        string match --quiet (commandline --current-process) {$match_command} {$check_run0} && echo {$expansion}
     end
     function {$func_name} --argument-names=subcommand --inherit-variable={initial_command,expansion}
         _expand-subcommand {$initial_command} {$expansion} {$subcommand}

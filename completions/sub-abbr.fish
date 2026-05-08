@@ -7,3 +7,4 @@ common-complete --short-option=f --long-option=function --description='Treat exp
 common-complete --short-option=r --long-option=regex --description='Match a regular expression' --exclusive
 common-complete --long-option=set-cursor --description='Position the cursor at % post-expansion'
 common-complete --long-option=color --description='When to colorize output' --exclusive --arguments='always never auto'
+common-complete --short-option=0 --long-option=norun0 --description='disable support for run0'
