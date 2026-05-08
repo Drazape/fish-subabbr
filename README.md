@@ -32,13 +32,16 @@ subabbr jj ci commit
 
 ---
 
-# Usage: Arguments
-## Positional
+# Usage
+## `sub-abbr`
+Create personal Sub-Command abbreviations in the scope
+### Arguments
+#### Positional
 1. **Base Command**: The initial command that must precede the *Sub-Command*. (This is what differentiates `sub-abbr` from `abbr --position=anywhere`). Becomes the new *Base Command* for *Expansion*
 2. **Sub-Command**: The *Sub-Command* to be replaced (expanded) by the *Expansion*. Comes after the *Base Command*
 3. **Expansion**: The replacement (*Expansion*) of the typed *Sub-Command*. Becomes the new *Sub-Command* for *Base Command*
-## Switches
-- **Help**: Show a reference manual, consisting of the [purpose](#Purpose) & [arguments](#Usage-Arguments)
+#### Switches
+- **Help**: Show a reference manual — consisting of the [purpose](#sub-abbr) & [arguments](#Arguments)
 	* **Long**: *help*
 	* **Short**: *h*
 - **Prohibit `run0`**: Disable toleration of `run0` in the command prefix; i.e., do not expand the *Sub-Command* if the the *Base Command* is prefixed with `run0`
@@ -50,6 +53,16 @@ subabbr jj ci commit
 - Inherited switches [^inherited-switches]
 	* Set Cursor
 	* Color
+## `sub-abbrs`
+Conveniently enable packages from the official repository
+### Arguments
+#### Positional
+**None**: When on arguments are specified, all the packages are activated
+**Command Names**: All the packages with support for the given commands are activated
+#### Switch
+- **From**: Choose to activate only official or 3rd-party commands 
+	* **Long**: *from*
+	* **Short**: *f*
 
 ---
 
@@ -66,7 +79,7 @@ It will update each time it is run
 ## NixOS
 A flake with convenient configuration options is planned.
 ### Workaround
-For now, the installation can be worked-around (with automatic updates)
+For now, the installation can be worked-around (with automatic updates). This way is not supported and may stop working after an update.
 #### `flake.nix`:
 ```nix
 {
@@ -92,13 +105,17 @@ For now, the installation can be worked-around (with automatic updates)
 	…
 	programs.fish = {
 		shellInit = ( # Fish subcommand abbreviation (workaround)
-						builtins.concatStringsSep "\n" (
-							builtins.map builtins.readFile 
-								(builtins.map
-									(subdir: inputs.fish-subAbbr + subdir + "/sub-abbr.fish")
-									[ /functions /completions ]
-								)
-						)
+			builtins.concatStringsSep "\n" (
+				builtins.map builtins.readFile 
+					(builtins.concatMap
+						(componentType:
+							let subDir = (inputs.fish-subAbbr + ("/"+componentType));
+							in (builtins.map
+								(baseName: (subDir + ("/"+baseName)))
+								(builtins.filter
+									(baseName: ((builtins.match ".*\.fish$" baseName) == []))
+									(builtins.attrNames (builtins.readDir subDir)))))
+						[ "functions" "completions" ]))
 		) + ''
 			…
 		'';

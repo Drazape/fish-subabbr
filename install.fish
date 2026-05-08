@@ -32,9 +32,14 @@ if ! set -ql _flag_vendor
 end' | tee {$global_fish_config_path} >/dev/null
 end
 
-set --function installFile sub-abbr.fish
+function install-components --description='Install a component of the program'
+    for component in {$argv[1]}/*.fish
+        install -D --mode=644 -- {$component} {$argv[2]}/(path basename {$component})
+    end
+end
+
 ### Install
-install -D --mode=644 -- functions/{$installFile} {$functions_dir}/{$installFile}
+install-components functions {$functions_dir}
 
 ## Completion
-install -D --mode=644 {$VERBOSE} -- completions/{$installFile} /usr/local/share/fish/vendor_completions.d/{$installFile}
+install-components completions /usr/local/share/fish/vendor_completions.d
