@@ -1,10 +1,8 @@
 function sub-abbr --description='Create abbreviations for subcommands'
-    set --local -- argparse_name --name=(set_color --dim)(status function)(set_color normal)
-
     # arguments
     ## Switches
     ### Help (the only native switch)
-    argparse --move-unknown "$argparse_name" h/help\& -- {$argv} || return 1
+    argparse --move-unknown --name=(set_color --dim)(status function)(set_color normal) 'a/add=*&' '/position=*&' 'f/function=*&' 'h/help&' -- {$argv} || return 1
     if set --query --local _flag_help
         function bullet --description='Create colored bullet points'
             echo (set_color --dim yellow){$argv}.(set_color normal)
@@ -20,9 +18,7 @@ function sub-abbr --description='Create abbreviations for subcommands'
             (bullet 3) (header Expansion)\t\t'Replaces the subcommand'
         return
     end
-    ### switches passed to `abbr`
-    argparse --move-unknown "$argparse_name" 'a/add=*&' '/position=*&' 'f/function=*&' -- {$argv_opts}
-
+    ### Unsupported switches
     if set -ql _flag_add || set -ql _flag_position || set -ql _flag_function
         echo (set_color red)'cannot pass internally used switches:' (set_color --bold)'add position function'(set_color normal)
         return 2
