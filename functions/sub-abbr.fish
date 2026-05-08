@@ -5,17 +5,29 @@ function sub-abbr --description='Create abbreviations for subcommands'
     argparse --move-unknown --name=(set_color --dim)(status function)(set_color normal) 'a/add=*&' '/position=*&' 'f/function=*&' 'h/help&' '0/norun0&' -- {$argv} || return 1
     if set --query --local _flag_help
         function bullet --description='Create colored bullet points'
-            echo (set_color --dim yellow){$argv}.(set_color normal)
+            echo (set_color --dim yellow)"$argv"(set_color normal)
         end
-        function header --description='Create headers'
-            echo (set_color --bold green){$argv}(set_color normal)
+        function heading --description='Create headings for headers'
+            echo (set_color --bold --underline blue)"$argv":(set_color normal)
         end
+        function header --description='Create headers for subheads'
+            echo (set_color --bold green)"$argv"(set_color normal)
+        end
+        function subhead --description='Create an attribute set header'
+            echo (set_color --italics green)"$argv"(set_color normal)
+        end
+        set --local sep \t(set_color --dim)'│ '(set_color normal)
 
-        echo (set_color magenta)'Set abbreviations on subcommands'(set_color normal)\n\n\
-(set_color blue --bold --underline)'Arguments:'(set_color normal)\n \
-            (bullet 1) (header Initial\ Command)\t'Comes before the subcommand'\n \
-            (bullet 2) (header Sub-Command)\t\t'Comes after the initial command; replaced by the expansion'\n \
-            (bullet 3) (header Expansion)\t\t'Replaces the subcommand'
+        echo (set_color magenta)'Abbreviate subcommands'(set_color normal)\n\n\
+(heading Arguments)\n \
+            (bullet 1.) (header Base\ Command){$sep}'Comes before the' (set_color --italics)Sub-Command(set_color normal)\n \
+            (bullet 2.) (header Sub-Command)\t{$sep}'Comes after the' (set_color --italics)'Base Command'(set_color normal)'; replaced by the '(set_color --italics)Expansion(set_color normal)\n \
+            (bullet 3.) (header Expansion)\t{$sep}'Replaces the '(set_color --italics)Sub-Command(set_color normal)\n\
+(heading Switches)\n \
+            '   '(set_color --bold cyan)long\tshort(set_color normal)\n \
+            (bullet •) (subhead \ help\t'  'h){$sep}'Show this reference manual'\n \
+            (bullet •) (subhead norun0\t'  '0){$sep}'Disable run0 toleration for abbreviations'\n \
+            (set_color --dim)'(others compatible inherited from `abbr`)'(set_color normal)
         return
     end
     ### Unsupported switches
