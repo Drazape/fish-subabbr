@@ -8,7 +8,7 @@ function sub-abbr --description='Create abbreviations for subcommands'
             echo (set_color --dim yellow)"$argv"(set_color normal)
         end
         function heading --description='Create headings for headers'
-            echo (set_color --bold --underline blue)"$argv":(set_color normal)
+            echo (set_color --bold --underline --underline-color=brblue blue)"$argv":(set_color normal)
         end
         function header --description='Create headers for subheads'
             echo (set_color --bold green)"$argv"(set_color normal)
@@ -20,14 +20,15 @@ function sub-abbr --description='Create abbreviations for subcommands'
 
         echo (set_color magenta)'Abbreviate subcommands'(set_color normal)\n\n\
 (heading Arguments)\n \
-            (bullet 1.) (header Base\ Command){$sep}'Comes before the' (set_color --italics)Sub-Command(set_color normal)\n \
+            (bullet 1.) (header Base\ Command){$sep}'Comes before the' (set_color --italics)Sub-Command(set_color normal)'; flags are ignored by default'\n \
             (bullet 2.) (header Sub-Command)\t{$sep}'Comes after the' (set_color --italics)'Base Command'(set_color normal)'; replaced by the '(set_color --italics)Expansion(set_color normal)\n \
             (bullet 3.) (header Expansion)\t{$sep}'Replaces the '(set_color --italics)Sub-Command(set_color normal)\n\
 (heading Switches)\n \
-            '   '(set_color --bold cyan)long\tshort(set_color normal)\n \
-            (bullet •) (subhead \ help\t'  'h){$sep}'Show this reference manual'\n \
-            (bullet •) (subhead norun0\t'  '0){$sep}'Disable run0 toleration for abbreviations'\n \
-            (set_color --dim)'(others compatible inherited from `abbr`)'(set_color normal)
+            (string repeat 6 \ )(set_color --underline --underline-color=brcyan --bold cyan)long\tshort(set_color normal)\n \
+            (bullet •) (string repeat 4 \ )(subhead help\t'  'h){$sep}'Show this reference manual'\n \
+            (bullet •) (string repeat 3 \ )(subhead norun0\t'  '0){$sep}Disable (set_color --background=red)run0(set_color normal) 'toleration for abbreviations'\n \
+            (bullet •) (subhead regard-flags '  's){$sep}'Acknowledge flags in the' (set_color --italics)'Base command'(set_color normal)\n \
+            (set_color white --dim)\((set_color normal --dim)'others compatible inherited from' (set_color --background=brblack)abbr(set_color --background=black white --dim)\)(set_color normal)
         return
     end
     ### Unsupported switches
@@ -61,9 +62,10 @@ function sub-abbr --description='Create abbreviations for subcommands'
     set --function func_name _sub-attr_(string replace --all ' ' - {$initial_command})_{$subcommand} # function name compatible hash, specific to the combination
     abbr {$argv_opts} --add --position=anywhere --function={$func_name} -- "$subcommand"
     function _expand-subcommand --description='Expand a subcommand' --argument-names={initial_command,expansion,subcommand} --inherit-variable=_flag_norun0
-        set --function match_command {$initial_command}\ {$subcommand}' '
+        set --function match_command {$initial_command}\ {$subcommand}
         set --query --local _flag_norun0 || set --local check_run0 'run0 '"$match_command"
-        string match --quiet (commandline --current-process) {$match_command} {$check_run0} && echo {$expansion}
+        argparse --move-unknown -- (commandline --tokens-expanded --current-process)
+        string match --quiet "$argv" {$match_command} {$check_run0} && echo {$expansion}
     end
     function {$func_name} --argument-names=subcommand --inherit-variable={initial_command,expansion}
         _expand-subcommand {$initial_command} {$expansion} {$subcommand}

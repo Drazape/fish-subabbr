@@ -39,11 +39,14 @@ subabbr jj ci commit
 3. **Expansion**: The replacement (*Expansion*) of the typed *Sub-Command*. Becomes the new *Sub-Command* for *Base Command*
 ## Switches
 - **Help**: Show a reference manual, consisting of the [purpose](#Purpose) & [arguments](#Usage-Arguments)
-	* **Short**: *h*
 	* **Long**: *help*
+	* **Short**: *h*
 - **Prohibit `run0`**: Disable toleration of `run0` in the command prefix; i.e., do not expand the *Sub-Command* if the the *Base Command* is prefixed with `run0`
-	* **Short**: *0*
 	* **Long**: *norun0*
+	* **Short**: *0*
+- **Regard Flags**: Acknowledge flags in the *Base Command*; If not set, switches in the *Base Command* are ignored
+	* **Long**: regard-flags
+	* **Short**: s
 - Inherited switches [^inherited-switches]
 	* Set Cursor
 	* Color
