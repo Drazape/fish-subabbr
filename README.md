@@ -57,7 +57,10 @@ subabbr jj ci commit
 [**Fisher**](https://github.com/jorgebucaran/fisher): `fisher install Drazape/fish-subAbbr`
 ## System
 ### Traditional Distributions
-There is currently no way to automatically do install and update it; you must do that manually
+```fish
+curl -fsSL 'https://raw.githubusercontent.com/Drazape/fish-subAbbr/main/install.fish' | run0 fish -NP
+```
+It will update each time it is run
 ## NixOS
 A flake with convenient configuration options is planned.
 ### Workaround
