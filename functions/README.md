@@ -12,3 +12,6 @@ Conveniently access Sub-Command abbreviation packages from the official reposito
 (`_sub-abbr_$command`)
 Hidden functions installed on the end-user's system.  
 These are packages that the user can enable using `sub-abbrs` in their Fish shell-initialization configuration
+
+> [!TIP]
+> See the [Contribution Guide](../CONTRIBUTING.md#official-packages) to learn how to add more packages — correctly

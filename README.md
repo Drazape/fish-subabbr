@@ -68,6 +68,12 @@ Helper to conveniently enable compatible packages
 	- **Long**: *help*
 	- **Short**: *h*
 
+> [!TIP]
+> ### Packages
+> - Discover
+>	- [Official](./functions/)
+>	- [3rd-party](https://github.com/topics/fish-subabbr)
+> - [Create](./CONTRIBUTING.md)
 ---
 
 # Installation
