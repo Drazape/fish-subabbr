@@ -50,8 +50,6 @@ subabbr jj ci commit
 - Inherited switches [^inherited-switches]
 	* Set Cursor
 	* Color
-	* Function
-	* Regex
 
 ---
 
