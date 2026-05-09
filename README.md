@@ -61,6 +61,12 @@ Helper to conveniently enable compatible packages
 **None**: When on arguments are specified, all the packages are activated
 **Command Names**: All the packages with support for the given commands are activated
 
+> [!TIP]
+> ### Packages
+> - Discover
+>	- [Official](./functions/)
+>	- [3rd-party](https://github.com/topics/fish-subabbr)
+> - [Create](./CONTRIBUTING.md)
 ---
 
 # Installation
