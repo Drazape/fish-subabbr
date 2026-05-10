@@ -2,7 +2,7 @@ function sub-abbr --description='Create abbreviations for subcommands'
     # arguments
     ## Switches
     ### Help (the only native switch)
-    argparse --move-unknown --name=(set_color --dim)(status function)(set_color normal) 'a/add=*&' '/position=*&' 'f/function=*&' 'r/regex=*&' 'h/help&' '0/norun0&' -- {$argv} || return 1
+    argparse --move-unknown --name=(set_color --dim)(status function)(set_color normal) '/color=*&' 'a/add=*&' '/position=*&' 'f/function=*&' 'r/regex=*&' 'h/help&' '0/norun0&' -- {$argv} || return 1
     if set --query --local _flag_help
         function bullet --description='Create colored bullet points'
             echo (set_color --dim yellow)"$argv"(set_color normal)
@@ -32,8 +32,8 @@ function sub-abbr --description='Create abbreviations for subcommands'
         return
     end
     ### Unsupported switches
-    if set -ql _flag_add || set -ql _flag_position || set -ql _flag_function || set -ql _flag_regex
-        echo (set_color red)'cannot pass internally used switches:' (set_color --bold)'add position function regex'(set_color normal)
+    if set -ql _flag_add || set -ql _flag_position || set -ql _flag_function || set -ql _flag_regex || set -ql _flag_color
+        echo (set_color red)'cannot pass internally used switches:' (set_color --bold)'add position function regex color'(set_color normal)
         return 2
     end
     ## Positional

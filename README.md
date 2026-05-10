@@ -50,9 +50,7 @@ Create personal Sub-Command abbreviations in the scope
 - **Regard Flags**: Acknowledge flags in the *Base Command*; If not set, switches in the *Base Command* are ignored
 	* **Long**: regard-flags
 	* **Short**: s
-- Inherited switches [^inherited-switches]
-	* Set Cursor
-	* Color
+- Inherited switch: *Set Cursor* [^inherited-switches]
 ## `sub-abbrs`
 Conveniently enable packages from the official repository
 ### Arguments

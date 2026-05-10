@@ -1,7 +1,6 @@
 alias common-complete 'complete --command=sub-abbr --no-files'
 
 common-complete
-common-complete --long-option=color --description='When to colorize output' --exclusive --arguments='always never auto'
 common-complete --short-option=h --long-option=help --description=Help
 common-complete --long-option=set-cursor --description='Position the cursor at % post-expansion'
 common-complete --long-option=color --description='When to colorize output' --exclusive --arguments='always never auto'
