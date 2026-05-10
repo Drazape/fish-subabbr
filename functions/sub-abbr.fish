@@ -1,8 +1,14 @@
 function sub-abbr --description='Create abbreviations for subcommands'
     # arguments
     ## Switches
+    argparse --name=(set_color --dim)(status function)(set_color normal) 'c/set-cursor=?&' 'h/help&' '0/norun0&' -- {$argv} || return 1
+    ### Set Cursor
+    if test -z {$_flag_set_cursor}
+        set -- set_cursor --set-cursor
+    else
+        set -- set_cursor --set-cursor={$_flag_set_cursor}
+    end
     ### Help (the only native switch)
-    argparse --move-unknown --name=(set_color --dim)(status function)(set_color normal) '/color=*&' 'a/add=*&' '/position=*&' 'f/function=*&' 'r/regex=*&' 'h/help&' '0/norun0&' -- {$argv} || return 1
     if set --query --local _flag_help
         function bullet --description='Create colored bullet points'
             echo (set_color --dim yellow)"$argv"(set_color normal)
@@ -31,11 +37,6 @@ function sub-abbr --description='Create abbreviations for subcommands'
             (set_color white --dim)\((set_color normal --dim)'others compatible inherited from' (set_color --background=brblack)abbr(set_color --background=black white --dim)\)(set_color normal)
         return
     end
-    ### Unsupported switches
-    if set -ql _flag_add || set -ql _flag_position || set -ql _flag_function || set -ql _flag_regex || set -ql _flag_color
-        echo (set_color red)'cannot pass internally used switches:' (set_color --bold)'add position function regex color'(set_color normal)
-        return 2
-    end
     ## Positional
     ### appropriate number of arguments. Not using `argparse` so that `--help can have as many arguments as it wants` and better formatted output
     if test (count {$argv}) -ne 3
@@ -60,7 +61,7 @@ function sub-abbr --description='Create abbreviations for subcommands'
 
     # main operation
     set --function func_name (systemd-escape _sub-attr_expand_{$base_command}\ {$subcommand}) # function name compatible hash, specific to the combination
-    abbr {$argv_opts} --add --position=anywhere --function={$func_name} -- "$subcommand"
+    abbr {$set_cursor} --add --position=anywhere --function={$func_name} -- "$subcommand"
     function _expand-subcommand --description='Expand a subcommand' --argument-names={base_command,expansion,subcommand} --inherit-variable=flag_norun0
         set --function match_command {$base_command}\ {$subcommand}
         set --query --local _flag_norun0 || set --local check_run0 'run0 '"$match_command"
