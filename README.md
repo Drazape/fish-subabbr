@@ -61,11 +61,16 @@ Conveniently enable packages from the official repository
 - **From**: Choose to activate only official or 3rd-party commands 
 	* **Long**: *from*
 	* **Short**: *f*
+- **Help**: Show a reference manual — consisting of the [Purpose](sub-abbrs) & [arguments](#Arguments-2) (*currently undone*)
+	* **Long**: *help*
+	* **Short**: *h*
 
 ---
 
 # Installation
-**Dependency**: *systemd* (`systemd-escape`)
+**Dependencies**
+- [systemd](https://systemd.io/) (`systemd-escape`)
+- [fish-helpText][fish-helpText] (`help-text`)
 ## User
 [**Fisher**](https://github.com/jorgebucaran/fisher): `fisher install Drazape/fish-subAbbr`
 ## System
@@ -78,6 +83,8 @@ It will update each time it is run
 A flake with convenient configuration options is planned.
 ### Workaround
 For now, the installation can be worked-around (with automatic updates). This way is not supported and may stop working after an update.
+> [!WARNING]
+> You will need to manually install the dependency: [fish-helpText][fish-helpText]
 #### `flake.nix`:
 ```nix
 {
@@ -125,3 +132,5 @@ For now, the installation can be worked-around (with automatic updates). This wa
 [^nh-why-allow-root]: Security of system configuration, Multi-user environments, elevation happens internally anyway
 [^eza-why-group]: Shows the group of the owned files. Default `long` switch in standard `ls` (I don't use this one, but you might want to if you see groups frequently. Why I am telling you this is that my aim is to set modern standards, not follow the legacy; as states my bio)
 [^inherited-switches]: These are supported switches inherit from `abbr` that are not already being internally used, and thus can be passed to `sub-abbr`, which it passes directly to `abbr`
+
+[fish-helpText]: https://github.com/Drazape/fish-helpText "Generate help-text references"
