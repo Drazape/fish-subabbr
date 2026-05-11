@@ -41,7 +41,7 @@ Create personal Sub-Command abbreviations in the scope
 2. **Sub-Command**: The *Sub-Command* to be replaced (expanded) by the *Expansion*. Comes after the *Base Command*
 3. **Expansion**: The replacement (*Expansion*) of the typed *Sub-Command*. Becomes the new *Sub-Command* for *Base Command*
 #### Switches
-- **Help**: Show a reference manual — consisting of the [purpose](#sub-abbr) & [arguments](#Arguments)
+- **Help**: Show a reference manual — consisting of the [purpose](#sub-abbr "The purpose of the command") & [arguments](#Arguments "Descriptions on all the supported arguments")
 	* **Long**: *help*
 	* **Short**: *h*
 - **Prohibit `run0`**: Disable toleration of `run0` in the command prefix; i.e., do not expand the *Sub-Command* if the the *Base Command* is prefixed with `run0`
@@ -69,10 +69,10 @@ Conveniently enable packages from the official repository
 
 # Installation
 **Dependencies**
-- [systemd](https://systemd.io/) (`systemd-escape`)
+- [systemd](https://systemd.io/ "Escape strings for usage in systemd unit names") (`systemd-escape`)
 - [fish-helpText][fish-helpText] (`help-text`)
 ## User
-[**Fisher**](https://github.com/jorgebucaran/fisher): `fisher install Drazape/fish-subAbbr`
+[**Fisher**](https://github.com/jorgebucaran/fisher "Fish plugin manager"): `fisher install Drazape/fish-subAbbr`
 ## System
 ### Traditional Distributions
 ```fish
@@ -133,4 +133,4 @@ For now, the installation can be worked-around (with automatic updates). This wa
 [^eza-why-group]: Shows the group of the owned files. Default `long` switch in standard `ls` (I don't use this one, but you might want to if you see groups frequently. Why I am telling you this is that my aim is to set modern standards, not follow the legacy; as states my bio)
 [^inherited-switches]: These are supported switches inherit from `abbr` that are not already being internally used, and thus can be passed to `sub-abbr`, which it passes directly to `abbr`
 
-[fish-helpText]: https://github.com/Drazape/fish-helpText "Generate help-text references"
+[fish-helpText]: https://github.com/Drazape/fish-helpText "Generate formatted console help reference texts"
