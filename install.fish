@@ -10,36 +10,22 @@ function cleanup_temporary_repository --description='Nuke temporary repository o
     rm -rf -- {$repository_dir}
 end
 
-# Clone repository to temporary directory
-set --global -- repository_dir (mktemp --directory /tmp/"$(string split '/' "$REPOSITORY" | tail -n 1)"-'XXXXXXXXX')
 begin
-    set --local clone_repo clone --filter=blob:none https://github.com/Drazape/fish-subAbbr.git "$repository_dir"
-    git $clone_repo || nix run nixpkgs#git $clone_repo || return 2
+    set --local proj_name fish-subAbbr
+    # Clone repository to temporary directory
+    set --global -- repository_dir {$proj_name}-'XXXXXXXXX'
+    begin
+        set --local clone_repo clone --filter=blob:none https://github.com/Drazape/{$proj_name}.git "$repository_dir"
+        git $clone_repo || nix run nixpkgs#git $clone_repo || return 2
+    end
+    cd {$repository_dir}
 end
-cd {$repository_dir}
 
 # Operate
-## Functions
-set --local functions_dir /usr/local/share/fish/vendor_functions.d
-### Functions' path for root
-if ! set -ql _flag_vendor
-    set --local global_fish_config_path /etc/fish/conf.d/local-functions.fish
-    # Preparation
-    mkdir -p -- (path dirname {$global_fish_config_path})
-    # Main file
-    echo 'if ! contains '"$functions_dir"' {$fish_function_path}
-'\t'set --prepend fish_function_path '"$functions_dir"'
-end' | tee {$global_fish_config_path} >/dev/null
-end
-
 function install-components --description='Install a component of the program'
     for component in {$argv[1]}/*.fish
         install -D --mode=644 -- {$component} {$argv[2]}/(path basename {$component})
     end
 end
-
-### Install
-install-components functions {$functions_dir}
-
-## Completion
-install-components completions /usr/local/share/fish/vendor_completions.d
+install-components functions /usr/local/share/fish/vendor_functions.d # Functions
+install-components completions /usr/local/share/fish/vendor_completions.d # Completions
