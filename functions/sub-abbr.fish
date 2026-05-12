@@ -3,7 +3,7 @@ function sub-abbr --description='Create abbreviations for subcommands'
 
     # arguments
     ## Switches
-    argparse --name={$output_name} 'r/regex&' 'c/set-cursor=?&' 'h/help&' '0/norun0&' -- {$argv} || return 1
+    argparse --name={$output_name} 'r/regex&' 'c/set-cursor=?&' 'h/help&' '0/norun0&' s/regard-flags -- {$argv} || return 1
     ### Set Cursor
     if test -z {$_flag_set_cursor}
         set -- set_cursor --set-cursor
@@ -59,10 +59,11 @@ function sub-abbr --description='Create abbreviations for subcommands'
             abbr {$common_flags} -- "$subcommand"
         end
     end
-    function _expand-subcommand --description='Expand a subcommand' --argument-names={base_command,expansion,subcommand} --inherit-variable=flag_norun0
+    function _expand-subcommand --description='Expand a subcommand' --argument-names={base_command,expansion,subcommand} --inherit-variable=_flag_{norun0,regard_flags}
         set --function match_command {$base_command}\ {$subcommand}
         set --query --local _flag_norun0 || set --local check_run0 'run0 '"$match_command"
-        argparse --move-unknown -- (commandline --tokens-expanded --current-process)
+        set --function argv (commandline --tokens-expanded --current-process)
+        set --local --query _flag_regard_flags || argparse --move-unknown -- {$argv}
         string match --quiet "$argv" {$match_command} {$check_run0} && echo {$expansion}
     end
     function {$identity} --argument-names=subcommand --inherit-variable={base_command,expansion}
