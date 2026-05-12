@@ -42,14 +42,17 @@ Create personal Sub-Command abbreviations in the scope
 3. **Expansion**: The replacement (*Expansion*) of the typed *Sub-Command*. Becomes the new *Sub-Command* for *Base Command*
 #### Switches
 - **Help**: Show a reference manual — consisting of the [purpose](#sub-abbr "The purpose of the command") & [arguments](#Arguments "Descriptions on all the supported arguments")
-	* **Long**: *help*
-	* **Short**: *h*
+	- **Long**: *help*
+	- **Short**: *h*
 - **Prohibit `run0`**: Disable toleration of `run0` in the command prefix; i.e., do not expand the *Sub-Command* if the the *Base Command* is prefixed with `run0`
-	* **Long**: *norun0*
-	* **Short**: *0*
+	- **Long**: *norun0*
+	- **Short**: *0*
 - **Regard Flags**: Acknowledge flags in the *Base Command*; If not set, switches in the *Base Command* are ignored
-	* **Long**: regard-flags
-	* **Short**: s
+	- **Long**: regard-flags
+	- **Short**: s
+- **RegExp**: Match *Sub-Command* with Regular Expressions. Essential for multiple *Base Commands* with the same *Sub-Command* [^multi-bases]
+	- **Long**: regex
+	- **Short**: r
 - Inherited switch: *Set Cursor* [^inherited-switches]
 ## `sub-abbrs`
 Conveniently enable packages from the official repository
@@ -59,11 +62,11 @@ Conveniently enable packages from the official repository
 **Command Names**: All the packages with support for the given commands are activated
 #### Switch
 - **From**: Choose to activate only official or 3rd-party commands 
-	* **Long**: *from*
-	* **Short**: *f*
+	- **Long**: *from*
+	- **Short**: *f*
 - **Help**: Show a reference manual — consisting of the [Purpose](sub-abbrs) & [arguments](#Arguments-2) (*currently undone*)
-	* **Long**: *help*
-	* **Short**: *h*
+	- **Long**: *help*
+	- **Short**: *h*
 
 ---
 
@@ -132,5 +135,6 @@ For now, the installation can be worked-around (with automatic updates). This wa
 [^nh-why-allow-root]: Security of system configuration, Multi-user environments, elevation happens internally anyway
 [^eza-why-group]: Shows the group of the owned files. Default `long` switch in standard `ls` (I don't use this one, but you might want to if you see groups frequently. Why I am telling you this is that my aim is to set modern standards, not follow the legacy; as states my bio)
 [^inherited-switches]: These are supported switches inherit from `abbr` that are not already being internally used, and thus can be passed to `sub-abbr`, which it passes directly to `abbr`
+[^multi-bases]: *RegExp* must be passed in order to use the same *Sub-Command* for multilpe *Base-Commands*. For example you can only have `-h` expand to `--help` for 2 separate commands `ls` and `cp` if *RegExp* is passed. (You don't have to do anything extra, other than escape any regular expressions)
 
 [fish-helpText]: https://github.com/Drazape/fish-helpText "Generate formatted console help reference texts"

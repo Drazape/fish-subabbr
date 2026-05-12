@@ -3,7 +3,7 @@ function sub-abbr --description='Create abbreviations for subcommands'
 
     # arguments
     ## Switches
-    argparse --name={$output_name} 'c/set-cursor=?&' 'h/help&' '0/norun0&' -- {$argv} || return 1
+    argparse --name={$output_name} 'r/regex&' 'c/set-cursor=?&' 'h/help&' '0/norun0&' -- {$argv} || return 1
     ### Set Cursor
     if test -z {$_flag_set_cursor}
         set -- set_cursor --set-cursor
@@ -16,12 +16,15 @@ function sub-abbr --description='Create abbreviations for subcommands'
             --positional={
                   'Base Command | Comes before the '(set_color --italics)Sub-Command(set_color normal)'; flags are ignored by default', 
                   'Sub-Command | Comes after the '(set_color --italics)Base\ Command(set_color normal)'; replaced by the '(set_color --italics)Expansion(set_color normal),
-                  'Expansion | Replaces the '(set_color --italics)Sub-Command(set_color normal) } \
+                  'Expansion | Replaces the '(set_color --italics)Sub-Command(set_color normal)
+            } \
             --switch={
                 'help:h | Show this reference manual',
                 'norun0:0  | Disable '(set_color --background=red)run0(set_color normal)' toleration for abbreviations',
                 'regard-flags:s | Acknowledge flags in the' (set_color --italics)'Base command'(set_color normal),
-                'set-cursor:c | Position the cursor at '(set_color --background=brblack)%(set_color normal)' post-expansion '(set_color white)'(inherited from '(set_color normal)(set_color --background=red)abbr(set_color normal)(set_color white)\)(set_color normal) }
+                'set-cursor:c | Position the cursor at '(set_color --background=brblack)%(set_color normal)' post-expansion '(set_color white)'(inherited from '(set_color normal)(set_color --background=red)abbr(set_color normal)(set_color white)\)(set_color normal),
+                'regex:r | Match '(set_color --italics)Sub-Command(set_color normal)' with Regex. Essential for multiple '(set_color --italics)Base\ Command(set_color normal)s\ (set_color white)'(inherited from '(set_color normal)(set_color --background=red)abbr(set_color normal)(set_color white)\)(set_color normal)
+            }
         return
     end
     ## Positional
@@ -47,15 +50,22 @@ function sub-abbr --description='Create abbreviations for subcommands'
     end
 
     # main operation
-    set --function func_name (systemd-escape _sub-attr_expand_{$base_command}\ {$subcommand}) # function name compatible hash, specific to the combination
-    abbr {$set_cursor} --add --position=anywhere --function={$func_name} -- "$subcommand"
+    set --function identity (systemd-escape _sub-attr_expand_{$base_command}\ {$subcommand}) # name compatible hash; specific to the combination
+    begin
+        set --local -- common_flags {$set_cursor} --add --position=anywhere --function={$identity}
+        if set --query --local _flag_regex
+            abbr {$common_flags} --regex="$subcommand" -- {$identity}
+        else
+            abbr {$common_flags} -- "$subcommand"
+        end
+    end
     function _expand-subcommand --description='Expand a subcommand' --argument-names={base_command,expansion,subcommand} --inherit-variable=flag_norun0
         set --function match_command {$base_command}\ {$subcommand}
         set --query --local _flag_norun0 || set --local check_run0 'run0 '"$match_command"
         argparse --move-unknown -- (commandline --tokens-expanded --current-process)
         string match --quiet "$argv" {$match_command} {$check_run0} && echo {$expansion}
     end
-    function {$func_name} --argument-names=subcommand --inherit-variable={base_command,expansion}
+    function {$identity} --argument-names=subcommand --inherit-variable={base_command,expansion}
         _expand-subcommand {$base_command} {$expansion} {$subcommand}
     end
 end
