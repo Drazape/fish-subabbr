@@ -131,7 +131,7 @@ For now, the installation can be worked-around (with automatic updates). This wa
 };
 ```
 
-[^simplification]: You can easily abbreviate base-commands, but there is no straight forward way to do the same with subcommands
+[^simplification]: You can easily abbreviate base-commands, but there is no straight forward way to do the same with subcommands. After I finished developing this program, I found a [GitHub discussion that comes up with this exact problem](https://github.com/fish-shell/fish-shell/discussions/11682)
 [^nh-why-allow-root]: Security of system configuration, Multi-user environments, elevation happens internally anyway
 [^eza-why-group]: Shows the group of the owned files. Default `long` switch in standard `ls` (I don't use this one, but you might want to if you see groups frequently. Why I am telling you this is that my aim is to set modern standards, not follow the legacy; as states my bio)
 [^inherited-switches]: These are supported switches inherit from `abbr` that are not already being internally used, and thus can be passed to `sub-abbr`, which it passes directly to `abbr`
