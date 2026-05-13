@@ -29,6 +29,9 @@ Each package is a single function in the repository provides abbreviations for t
 - Packages may or may not choose to maintain compatibility with the official repository helper: `sub-abbrs`.
 You might be able to get some creative inspiration by exploring existing packages/repositories, or you could also choose to an unofficial repository if it suits your project better. 
 
+> [!TIP]
+> Make your project discoverable with the [topic](https://docs.github.com/en/repositories/managing-your-repositorys-settings-and-features/customizing-your-repository/classifying-your-repository-with-topics#adding-topics-to-your-repository): [`fish-subabbr`](https://github.com/topics/fish-subabbr)
+
 [^func-suffix]: Each official repository compatible package is simply a function. The functions outside the official repository must have a unique suffix to avoid conflicts, while the official repository packages are prohibited to have one.
 	- **Official**: `_sub-abbr_<command>`
 	- **3rd-party**:
