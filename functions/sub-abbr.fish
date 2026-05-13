@@ -21,7 +21,7 @@ function sub-abbr --description='Create abbreviations for subcommands'
             } \
             --switch={
                 'help:h | Show this reference manual',
-                'norun0:0  | Disable '(set_color --background=red)run0(set_color normal)' toleration for abbreviations',
+                'norun0:0 | Disable '(set_color --background=red)run0(set_color normal)' toleration for abbreviations',
                 'regard-flags:s | Acknowledge flags in the Base Command',
                 'set-cursor:c | Position the cursor at '(set_color --background=brblack)%(set_color normal)' post-expansion'{$inherited},
                 'regex:r | Match Sub-Command with Regex. Essential for multiple Base Commands'{$inherited}
@@ -29,24 +29,27 @@ function sub-abbr --description='Create abbreviations for subcommands'
         return
     end
     ## Positional
-    ### appropriate number of arguments. Not using `argparse` so that `--help can have as many arguments as it wants` and better formatted output
-    if test (count {$argv}) -ne 3
-        echo {$output_name}(set_color --dim white):(set_color normal) expected (set_color --bold)3(set_color normal) arguments(set_color white)\;(set_color normal) got (set_color --italics)(count {$argv})(set_color normal)
-        return 3
-    end
-    ### Name arguments (`--argument-names` is not used for compatibility with `argparse`)
-    set --function base_command {$argv[1]}
-    set --function subcommand {$argv[2]}
-    set --function expansion {$argv[3]}
-    ### compatible subcommand name: must be a single token
     begin
-        function subcommand-contains
-            test (count {$argv}) -eq 1 || return 1
-            string match --quiet --regex '.*'{$argv}'.*' {$subcommand}
+        set --local output_prefix {$output_name}(set_color --dim white):(set_color normal)
+        ### appropriate number of arguments. Not using `argparse` so that `--help can have as many arguments as it wants` and better formatted output
+        if test (count {$argv}) -ne 3
+            echo {$output_prefix} expected (set_color --bold)3(set_color normal) arguments(set_color white)\;(set_color normal) got (set_color --italics)(count {$argv})(set_color normal)
+            return 3
         end
-        if subcommand-contains ' ' || subcommand-contains \n
-            echo 'incompatible subcommand'
-            return 4
+        ### Name arguments (`--argument-names` is not used for compatibility with `argparse`)
+        set --function base_command {$argv[1]}
+        set --function subcommand {$argv[2]}
+        set --function expansion {$argv[3]}
+        ### compatible subcommand name: must be a single token
+        begin
+            function subcommand-contains --argument-names=substring --inherit-variable=subcommand
+                test (count {$argv}) -eq 1 || return 1
+                string match --quiet --regex '.*'{$substring}'.*' {$subcommand}
+            end
+            if subcommand-contains ' ' || subcommand-contains \n
+                echo {$output_name} incompatible (set_color --italics)Sub-Command(set_color normal)
+                return 4
+            end
         end
     end
 
