@@ -55,7 +55,7 @@ Create personal Sub-Command abbreviations in the scope
 	- **Short**: r
 - Inherited switch: *Set Cursor* [^inherited-switches]
 ## `sub-abbrs`
-Conveniently enable packages from the official repository
+Helper to conveniently enable compatible packages
 ### Arguments
 #### Positional
 **None**: When on arguments are specified, all the packages are activated
