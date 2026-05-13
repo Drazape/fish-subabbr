@@ -41,21 +41,13 @@ Create personal Sub-Command abbreviations in the scope
 2. **Sub-Command**: The *Sub-Command* to be replaced (expanded) by the *Expansion*. Comes after the *Base Command*
 3. **Expansion**: The replacement (*Expansion*) of the typed *Sub-Command*. Becomes the new *Sub-Command* for *Base Command*
 #### Switches
-- **Help**: Show a reference manual — consisting of the [purpose](#sub-abbr "The purpose of the command") & [arguments](#Arguments "Descriptions on all the supported arguments")
-	- **Long**: *help*
-	- **Short**: *h*
-- **Prohibit `run0`**: Disable toleration of `run0` in the command prefix; i.e., do not expand the *Sub-Command* if the the *Base Command* is prefixed with `run0`
-	- **Long**: *norun0*
-	- **Short**: *0*
-- **Regard Flags**: Acknowledge flags in the *Base Command*; If not set, switches in the *Base Command* are ignored
-	- **Long**: *regard-flags*
-	- **Short**: *s*
-- **RegExp**: Match *Sub-Command* with Regular Expressions. Essential for multiple *Base Commands* with the same *Sub-Command* [^multi-bases] (inherited [^inherited-switches])
-	- **Long**: *regex*
-	- **Short**: *r*
-- **Set Cursor**: Set the cursor to a position. Same usage as the internal switch (inherited [^inherited-switches])
-	- **Long**: *set-cursor*
-	- **Short**: *c*
+| Name | Description | Long | Short | Inherited [^inherited-switches] |
+| :--: | ----------- | :--: | :---: | :-----------------------------: |
+| **Help** | Show a reference manual — consisting of the [purpose](#sub-abbr "The purpose of the command") & [arguments](#Arguments "Descriptions on all the supported arguments") | *help* | *h* | ❌ |
+| **Prohibit `run0`** | Disable toleration of `run0` in the command prefix; i.e., do not expand the *Sub-Command* if the the *Base Command* is prefixed with `run0` | *norun0* | *0* | ❌ |
+| **Regard Flags** | Acknowledge flags in the *Base Command*; If not set, switches in the *Base Command* are ignored | *regard-flags* | *s* | ❌ |
+| **RegExp** | Match *Sub-Command* with Regular Expressions. Essential for multiple *Base Commands* with the same *Sub-Command* [^multi-bases] | *regex* | *r* | ✅ |
+| **Set Cursor** | Set the cursor to a position. Same usage as the internal switch | *set-cursor* | *c* | ✅ | 
 ## `sub-abbrs`
 Helper to conveniently enable compatible packages
 ### Arguments
