@@ -50,10 +50,12 @@ Create personal Sub-Command abbreviations in the scope
 - **Regard Flags**: Acknowledge flags in the *Base Command*; If not set, switches in the *Base Command* are ignored
 	- **Long**: regard-flags
 	- **Short**: s
-- **RegExp**: Match *Sub-Command* with Regular Expressions. Essential for multiple *Base Commands* with the same *Sub-Command* [^multi-bases]
+- **RegExp**: Match *Sub-Command* with Regular Expressions. Essential for multiple *Base Commands* with the same *Sub-Command* [^multi-bases] (inherited [^inherited-switches])
 	- **Long**: regex
 	- **Short**: r
-- Inherited switch: *Set Cursor* [^inherited-switches]
+- **Set Cursor**: Set the cursor to a position. Same usage as the internal switch (inherited [^inherited-switches])
+	- **Long**: set-cursor
+	- **Short**: c
 ## `sub-abbrs`
 Helper to conveniently enable compatible packages
 ### Arguments
