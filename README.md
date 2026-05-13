@@ -60,13 +60,6 @@ Conveniently enable packages from the official repository
 #### Positional
 **None**: When on arguments are specified, all the packages are activated
 **Command Names**: All the packages with support for the given commands are activated
-#### Switch
-- **From**: Choose to activate only official or 3rd-party commands 
-	- **Long**: *from*
-	- **Short**: *f*
-- **Help**: Show a reference manual — consisting of the [Purpose](sub-abbrs) & [arguments](#Arguments-2) (*currently undone*)
-	- **Long**: *help*
-	- **Short**: *h*
 
 ---
 
