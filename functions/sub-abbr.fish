@@ -3,9 +3,9 @@ function sub-abbr --description='Create abbreviations for subcommands'
 
     # arguments
     ## Switches
-    argparse --name={$output_name} 'r/regex&' 'c/set-cursor=?&' 'h/help&' '0/norun0&' s/regard-flags -- {$argv} || return 1
+    argparse --name={$output_name} 'r/regex&' 'c/set-cursor=?&' 'h/help&' '0/norun0&' 's/regard-flags&' -- {$argv} || return 1
     ### Set Cursor
-    if test -z {$_flag_set_cursor}
+    set --query --local _flag_set_cursor && if test -z {$_flag_set_cursor}
         set -- set_cursor --set-cursor
     else
         set -- set_cursor --set-cursor={$_flag_set_cursor}
@@ -65,8 +65,10 @@ function sub-abbr --description='Create abbreviations for subcommands'
             abbr {$common_flags} -- "$subcommand"
         end
     end
-    function _expand-subcommand --description='Expand a subcommand' --inherit-variable=_flag_{norun0,regard_flags} --argument-names={base_command,expansion}
-        set --function initial_args {$argv[3..]}
+    function _expand-subcommand --description='Expand a subcommand'
+        argparse '0/norun0&' 's/regard-flags&' -- {$argv}
+        set --function expansion {$argv[1]}
+        set --function initial_args {$argv[2..]}
         set --local argv (commandline --tokens-expanded --current-process)
         set --local --query _flag_regard_flags || argparse --move-unknown -- {$argv}
         set --function arg_count (count {$initial_args})
@@ -79,7 +81,7 @@ function sub-abbr --description='Create abbreviations for subcommands'
         end
         echo {$expansion}
     end
-    function {$identity} --argument-names=subcommand --inherit-variable={base_command,expansion,initial_args}
-        _expand-subcommand {$base_command} {$expansion} {$initial_args}
+    function {$identity} --argument-names=subcommand --inherit-variable={expansion,initial_args,_flag_{norun0,regard_flags}}
+        _expand-subcommand {$_flag_norun0} {$_flag_regard_flags} -- {$expansion} {$initial_args}
     end
 end
