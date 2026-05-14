@@ -5,10 +5,10 @@ Simplify abbrevating subcommands [^simplification]
 ## Defaults (convenience)
 ### Switches for certain subcommands  
 ```fish
-sub-abbr --set-cursor nh os switch{,' % --bypass-root-check'}
+sub-abbr --no-run0 --set-cursor run0 nh os switch{,' % --bypass-root-check'}
 ```
-[^nh-why-allow-root]  
-<img width="1415" height="82" alt="nh-switch" src="https://github.com/user-attachments/assets/394abe78-a4f7-4f82-a77e-488666010b64" />
+<img width="1408" height="82" alt="run0-nh-os-switch" src="https://github.com/user-attachments/assets/a944f937-9803-4572-86d4-31b6eefd25e8" />
+
 ### A combination of switches
 ```fish
 sub-abbr -- eza --long{,\ --group}`
@@ -125,7 +125,6 @@ For now, the installation can be worked-around (with automatic updates). This wa
 ```
 
 [^simplification]: You can easily abbreviate base-commands, but there is no straight forward way to do the same with subcommands. After I finished developing this program, I found a [GitHub discussion that comes up with this exact problem](https://github.com/fish-shell/fish-shell/discussions/11682)
-[^nh-why-allow-root]: Security of system configuration, Multi-user environments, elevation happens internally anyway
 [^eza-why-group]: Shows the group of the owned files. Default `long` switch in standard `ls` (I don't use this one, but you might want to if you see groups frequently. Why I am telling you this is that my aim is to set modern standards, not follow the legacy; as states my bio)
 [^inherited-switches]: These are supported switches inherit from `abbr` that are not already being internally used, and thus can be passed to `sub-abbr`, which it passes directly to `abbr`
 [^multi-bases]: *RegExp* must be passed in order to use the same *Sub-Command* for multilpe *Base-Commands*. For example you can only have `-h` expand to `--help` for 2 separate commands `ls` and `cp` if *RegExp* is passed. (You don't have to do anything extra, other than escape any regular expressions)
