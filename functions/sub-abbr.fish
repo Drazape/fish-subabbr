@@ -43,11 +43,7 @@ function sub-abbr --description='Create abbreviations for subcommands'
         set --function expansion {$argv[-1]}
         ### compatible subcommand name: must be a single token
         begin
-            function subcommand-contains --argument-names=substring --inherit-variable=subcommand
-                test (count {$argv}) -eq 1 || return 1
-                string match --quiet --regex '.*'{$substring}'.*' {$subcommand}
-            end
-            if subcommand-contains ' ' || subcommand-contains \n
+            if _subcommand-contains ' ' || _subcommand-contains \n
                 echo {$output_name} incompatible (set_color --italics)Sub-Command(set_color normal)
                 return 3
             end
@@ -64,22 +60,6 @@ function sub-abbr --description='Create abbreviations for subcommands'
         else
             abbr {$common_flags} -- "$subcommand"
         end
-    end
-    function _expand-subcommand --description='Expand a subcommand'
-        argparse '0/no-run0&' 's/regard-flags&' -- {$argv}
-        set --function expansion {$argv[1]}
-        set --function initial_args {$argv[2..]}
-        set --local argv (commandline --tokens-expanded --current-process)
-        set --local --query _flag_regard_flags || argparse --move-unknown -- {$argv}
-        set --function arg_count (count {$initial_args})
-        set --function active_sub_args {$argv[2..-2]}
-        ! set --local --query _flag_no_run0 && test {$argv[1]} = run0 && set --function active_sub_args {$active_sub_args[2..]} # Remove real Base Command from sub arguments
-
-        test {$arg_count} -eq (count {$active_sub_args}) || return 1
-        for i in (seq 1 {$arg_count})
-            test {$initial_args[$i]} = {$active_sub_args[$i]} || return 2
-        end
-        echo {$expansion}
     end
     function {$identity} --argument-names=subcommand --inherit-variable={expansion,initial_args,_flag_{no_run0,regard_flags}}
         _expand-subcommand {$_flag_no_run0} {$_flag_regard_flags} -- {$expansion} {$initial_args}
