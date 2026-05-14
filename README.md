@@ -46,7 +46,7 @@ Create personal Sub-Command abbreviations in the scope
 | **Help** | Show a reference manual — consisting of the [purpose](#sub-abbr "The purpose of the command") & [arguments](#Arguments "Descriptions on all the supported arguments") | *help* | *h* | ❌ |
 | **Prohibit `run0`** | Disable toleration of `run0` in the command prefix; i.e., do not expand the *Sub-Command* if the the *Base Command* is prefixed with `run0` | *norun0* | *0* | ❌ |
 | **Regard Flags** | Acknowledge flags in the *Base Command*; If not set, switches in the *Base Command* are ignored | *regard-flags* | *s* | ❌ |
-| **RegExp** | Match *Sub-Command* with Regular Expressions. Essential for multiple *Base Commands* with the same *Sub-Command* [^multi-bases] | *regex* | *r* | ✅ |
+| **RegExp** | Match *Sub-Command* with Regular Expressions. Essential for abbreviating the same pair of *Sub-Command* & *Base Command* [^multi-bases] | *regex* | *r* | ✅ |
 | **Set Cursor** | Set the cursor to a position. Same usage as the internal switch | *set-cursor* | *c* | ✅ | 
 ## `sub-abbrs`
 Helper to conveniently enable compatible packages
@@ -127,6 +127,6 @@ For now, the installation can be worked-around (with automatic updates). This wa
 [^simplification]: You can easily abbreviate base-commands, but there is no straight forward way to do the same with subcommands. After I finished developing this program, I found a [GitHub discussion that comes up with this exact problem](https://github.com/fish-shell/fish-shell/discussions/11682)
 [^eza-why-group]: Shows the group of the owned files. Default `long` switch in standard `ls` (I don't use this one, but you might want to if you see groups frequently. Why I am telling you this is that my aim is to set modern standards, not follow the legacy; as states my bio)
 [^inherited-switches]: These are supported switches inherit from `abbr` that are not already being internally used, and thus can be passed to `sub-abbr`, which it passes directly to `abbr`
-[^multi-bases]: *RegExp* must be passed in order to use the same *Sub-Command* for multilpe *Base-Commands*. For example you can only have `-h` expand to `--help` for 2 separate commands `ls` and `cp` if *RegExp* is passed. (You don't have to do anything extra, other than escape any regular expressions)
+[^multi-bases]: *RegExp* must be passed in order to use the same *Sub-Command* with the same *Base-Command* in a different position. For example, you can only have `jj l{,og}` and `jj op l{,og}` if *RegExp* is used. (You don't have to do anything extra, other than escape any regular expressions)
 
 [fish-helpText]: https://github.com/Drazape/fish-helpText "Generate formatted console help reference texts"
