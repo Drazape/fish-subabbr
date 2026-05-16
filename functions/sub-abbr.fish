@@ -19,7 +19,7 @@ function sub-abbr --description='Create abbreviations for subcommands'
                   'Sub-Command | Comes after the Base Command; replaced by the Expansion',
                   'Expansion | Replaces the Sub-Command'
             } \
-            --switch={
+            --flag={
                 'help:h | Show this reference manual',
                 'no-run0:0 | Disable '(set_color --background=red)run0(set_color normal)' toleration for abbreviations',
                 'regard-flags:s | Acknowledge flags in the Base Command',
